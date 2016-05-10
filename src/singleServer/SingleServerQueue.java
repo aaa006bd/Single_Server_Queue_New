@@ -57,10 +57,14 @@ public class SingleServerQueue {
                 processDeparture();
             }
         }
+        getStatistics();
+
+    }
+
+    private void getStatistics() {
         System.out.println("average waiting time: "+totalWaitingTime/maxNumberOfCustomers);
         System.out.println("total waiting time: "+totalWaitingTime);
         System.out.println("total customer in the waiting Queue: "+(totalWaitingTime/simulationClock.getTime()));
-
     }
 
 
@@ -81,7 +85,6 @@ public class SingleServerQueue {
         if(customerQueue.size()>0){
             Customer firstCustomerInQueue = customerQueue.getFirst();
             double waitingTime = simulationClock.getTime()-firstCustomerInQueue.getArrivalTime();
-            System.out.println("waiting time for customer "+numberOfDepartures+": "+waitingTime);
             totalWaitingTime +=waitingTime;//waiting time for this customer
             scheduleDeparture();
         }
@@ -90,13 +93,11 @@ public class SingleServerQueue {
 
     private void scheduleArrival() {
         double nextArrivalTime = simulationClock.getTime() + getRandomInterArrivalTime();
-        System.out.println("arrival:"+nextArrivalTime);
         events.add(new Event(nextArrivalTime,Event.ARRIVAL_EVENT));
     }
 
     private void scheduleDeparture(){
         double nextDepartureTime = simulationClock.getTime() + getRandomServiceTime();
-        System.out.println("departure:"+nextDepartureTime);
         events.add(new Event(nextDepartureTime,Event.DEPARTURE_EVENT));
     }
 

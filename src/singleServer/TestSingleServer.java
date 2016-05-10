@@ -7,11 +7,7 @@ import java.util.LinkedList;
  */
 public class TestSingleServer {
     public static void main(String[] args) {
-        SingleServerQueue simulation = new SingleServerQueue(5);
-
-        LinkedList<Integer> testList = new LinkedList<>();
-
-        testList.add(10);
+        SingleServerQueue simulation = new SingleServerQueue(10000);
 
         simulation.simulate();
     }
