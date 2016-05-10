@@ -41,7 +41,7 @@ public class SingleServerQueue {
         customerQueue = new LinkedList<>();// FIFO
         events = new PriorityQueue<>();// list of triggering event
         simulationClock = new SimulationClock(0);
-        scheduleArrival();
+        scheduleArrival(getRandomInterArrivalTime());
     }
 
     public void simulate(){
@@ -64,17 +64,19 @@ public class SingleServerQueue {
     private void getStatistics() {
         System.out.println("average waiting time: "+totalWaitingTime/maxNumberOfCustomers);
         System.out.println("total waiting time: "+totalWaitingTime);
-        System.out.println("total customer in the waiting Queue: "+(totalWaitingTime/simulationClock.getTime()));
+        System.out.println("average customer in the waiting Queue: "+(totalWaitingTime/simulationClock.getTime()));
     }
 
 
     private void processArrival(){
+        double processTime = getRandomServiceTime();
         numberOfArrivals ++ ;
-        customerQueue.add(new Customer(simulationClock.getTime()));
+        customerQueue.add(new Customer(simulationClock.getTime(),processTime));
         if (customerQueue.size() == 1){
-            scheduleDeparture();
+
+            scheduleDeparture(processTime);
         }
-        scheduleArrival();
+        scheduleArrival(getRandomInterArrivalTime());
 
     }
 
@@ -86,18 +88,18 @@ public class SingleServerQueue {
             Customer firstCustomerInQueue = customerQueue.getFirst();
             double waitingTime = simulationClock.getTime()-firstCustomerInQueue.getArrivalTime();
             totalWaitingTime +=waitingTime;//waiting time for this customer
-            scheduleDeparture();
+            scheduleDeparture(getRandomServiceTime());
         }
 
     }
 
-    private void scheduleArrival() {
-        double nextArrivalTime = simulationClock.getTime() + getRandomInterArrivalTime();
+    private void scheduleArrival(double interArrivalTime) {
+        double nextArrivalTime = simulationClock.getTime() + interArrivalTime;
         events.add(new Event(nextArrivalTime,Event.ARRIVAL_EVENT));
     }
 
-    private void scheduleDeparture(){
-        double nextDepartureTime = simulationClock.getTime() + getRandomServiceTime();
+    private void scheduleDeparture(double serviceTime){
+        double nextDepartureTime = simulationClock.getTime() + serviceTime;
         events.add(new Event(nextDepartureTime,Event.DEPARTURE_EVENT));
     }
 

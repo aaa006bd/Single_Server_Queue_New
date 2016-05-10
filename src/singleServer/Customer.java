@@ -5,9 +5,15 @@ package singleServer;
  */
 public class Customer {
     private double arrivalTime;
+    private double serviceTime;
 
     public Customer(double arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public Customer(double arrivalTime, double serviceTime) {
+        this.arrivalTime = arrivalTime;
+        this.serviceTime = serviceTime;
     }
 
     public double getArrivalTime() {
@@ -16,5 +22,13 @@ public class Customer {
 
     public void setArrivalTime(double arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public double getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(double serviceTime) {
+        this.serviceTime = serviceTime;
     }
 }
