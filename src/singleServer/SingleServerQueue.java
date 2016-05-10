@@ -2,6 +2,7 @@ package singleServer;
 
 import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 /**
  * Created by My PC on 5/9/2016.
@@ -10,8 +11,8 @@ public class SingleServerQueue {
 
     /*
     this is a simple single server queue implementation.the methods of
-    generating random interarrival time and service time are not implemented yet
-    implement them.
+    generating random interarrival time and service time has been implemented with
+    geometric distribution and also new constructor provided
      */
     public SimulationClock simulationClock;
 
@@ -20,6 +21,7 @@ public class SingleServerQueue {
     private int maxNumberOfCustomers;
     private int customerProcessed;
     private int totalCustomerInWaitingQueue=0;
+    private double probabilityOfArrival=0.2,probabilityOfService=0.3;//initial value if not provided
 
     private LinkedList<Customer> customerQueue;// FIFO
 
@@ -27,6 +29,12 @@ public class SingleServerQueue {
 
     public SingleServerQueue(int maxNumberOfCustomers) {
         this.maxNumberOfCustomers = maxNumberOfCustomers;
+    }
+
+    public SingleServerQueue(int maxNumberOfCustomers, double probabilityOfArrival, double probabilityOfService) {
+        this.maxNumberOfCustomers = maxNumberOfCustomers;
+        this.probabilityOfArrival = probabilityOfArrival;
+        this.probabilityOfService = probabilityOfService;
     }
 
     private void initialize(){
@@ -93,11 +101,26 @@ public class SingleServerQueue {
     }
 
     private double getRandomServiceTime() {
-        return 10;
+        return getGeometricRandomNumber(this.probabilityOfService);
     }
 
     private double getRandomInterArrivalTime() {
-        return 5;
+        return getGeometricRandomNumber(this.probabilityOfArrival);
+    }
+
+    private double getGeometricRandomNumber(double probabilityOfSuccess) {
+        double count = 1;
+        double y;
+        Random rand = new Random();
+        while (true) {
+            y = rand.nextDouble();
+            if (y <= probabilityOfSuccess) {
+                break;
+            } else {
+                count++;
+            }
+        }
+        return count;
     }
 
 
