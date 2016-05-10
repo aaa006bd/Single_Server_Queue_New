@@ -8,6 +8,11 @@ import java.util.PriorityQueue;
  */
 public class SingleServerQueue {
 
+    /*
+    this is a simple single server queue implementation.the methods of
+    generating random interarrival time and service time are not implemented yet
+    implement them.
+     */
     public SimulationClock simulationClock;
 
     private int numberOfArrivals,numberOfDepartures;
